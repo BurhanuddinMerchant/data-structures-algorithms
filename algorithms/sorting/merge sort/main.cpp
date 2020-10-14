@@ -2,11 +2,11 @@
 
 using namespace std;
 
-void merge_array(int *a,int *l ,int lc,int *r,int rc){
+void merge_arrays(int *a,int *l ,int lc,int *r,int rc){
     int i,j,k;
     i=j=k=0;
     while(i<lc && j<rc){
-        if(l[i]>=r[j]){
+        if(l[i]<=r[j]){
             a[k] = l[i];
             i++;
             k++;
@@ -32,8 +32,8 @@ void merge_array(int *a,int *l ,int lc,int *r,int rc){
 void merge_sort(int *a,int n){
     if(n<2) return ;
     int mid = n/2;
-    int l[mid];
-    int r[n-mid];
+    int *l = new int[mid];
+    int *r = new int[n-mid];
     for(int i=0;i<mid;i++){
         l[i] = a[i];
     }
@@ -43,12 +43,12 @@ void merge_sort(int *a,int n){
     merge_sort(l,mid);
     merge_sort(r,n-mid);
     merge_arrays(a,l,mid,r,n-mid);
-    delete l;
-    delete r;
+    delete[] l;
+    delete[] r;
 }
 
 
-void print_array(long long *a, long long n){
+void print_array(int *a, long long n){
     for(long long i=0;i<n;i++){
         cout<<a[i]<<" ";
     }
@@ -66,9 +66,9 @@ int main()
         cin>>a[i];
     }
     cout<<"Before : ";
-    print_array(a);
+    print_array(a,n);
     merge_sort(a,n);
     cout<<"After : ";
-    print_array(a);
+    print_array(a,n);
     return 0;
 }
