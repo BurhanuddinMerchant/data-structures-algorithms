@@ -45,6 +45,7 @@ void insert_node_at_index(Node **head,int val,int index){
     if(index==1){
         new_node->next = *head;
         if(*head==nullptr){
+            *head=new_node;
             return;
         }
         (*head)->prev = new_node;
@@ -113,6 +114,48 @@ void delete_node_at_head(Node **head){
     }
 }
 
+void delete_node_at_index(Node **head,int index){
+    if(*head==nullptr){
+        cout<<"Error : Cannot Delete from an empty list!!\n";
+        return ;
+    }
+    else if(index==1){
+        Node *temp = (*head)->next;
+        if(temp==nullptr){
+            return;
+        }
+        delete *head;
+        *head = temp;
+        temp->prev = nullptr;
+        return;
+    }
+    Node *temp = *head;
+    int i;
+    for(i=0;i<index-2 && temp !=nullptr;i++){
+        /*
+        # CODE FOR DEBUGGING
+        cout<<"temp : "<<temp<<endl;
+        cout<<" i : "<<i<<endl;
+        cout<<"temp->next " <<temp->next<<endl;
+        */
+        temp = temp->next;
+    }
+    if(i==index-2 && temp->next !=nullptr){
+        if((temp->next)->next!=nullptr){
+            Node *node = temp->next;
+            temp->next = node->next;
+            (node->next)->prev = temp;
+            delete node;
+        }
+        else{
+            delete temp->next;
+            temp->next = nullptr;
+        }
+    }
+    else{
+        cout<<"\n\nError : Index out of range!!\n";
+    }
+}
 
 void print_node(Node **head){
     Node *temp = *head;
@@ -132,6 +175,8 @@ int main()
 {
     Node *head = new Node();
     head = nullptr;
+    insert_node_at_index(&head,90,1);
+    print_node(&head);
     delete_node_at_head(&head);
     insert_at_head(&head,700);
     delete_node_at_head(&head);
@@ -148,5 +193,16 @@ int main()
     print_node(&head);
     delete_node_at_head(&head);
     print_node(&head);
+    Node *head2 = new Node;
+    head2 = nullptr;
+    insert_node_at_index(&head2,5,1);
+    insert_at_head(&head2,1);
+    insert_at_head(&head2,2);
+    insert_at_head(&head2,3);
+    insert_at_head(&head2,4);
+    print_node(&head2);
+    cout<<"Here\n";
+    delete_node_at_index(&head2,5);
+    print_node(&head2);
     return 0;
 }
