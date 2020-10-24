@@ -90,6 +90,40 @@ class Node{
             }
         }
     }
+    void deleteNodeAtHead(Node **head){
+        if(*head==nullptr){
+            cout<<"Cannot Delete From An Empty List !!\n";
+            return;
+        }
+        else{
+            Node *temp = *head;
+            *head = temp->next;
+            delete temp;
+        }
+    }
+
+    void deleteNodeAtTail(Node **head){
+        if(*head==nullptr){
+            cout<<"Cannot Delete From An Empty List !!\n";
+            return;
+        }
+        else{
+            Node *temp = *head;
+            Node *prev = *head;
+            while(temp->next!=nullptr){
+                prev = temp;
+                temp = temp->next;
+            }
+            if(temp==*head){
+                delete *head;
+                *head = nullptr;
+            }
+            else{
+            delete temp;
+            prev->next = nullptr;
+            }
+        }
+    }
     void printList(Node **head){
         if(*head==nullptr){
             cout<<"Empty Linked List\n";
@@ -123,6 +157,12 @@ public:
         //1 based indexing followed
         head->deleteNode(&head,index);
     }
+    void delete_node_at_tail(){
+        head->deleteNodeAtTail(&head);
+    }
+    void delete_node_at_head(){
+        head->deleteNodeAtHead(&head);
+    }
     void print_list(){
         head->printList(&head);
     }
@@ -131,20 +171,84 @@ public:
 int main()
 {
     LinkList l;
-    l.insert_node_at_end(5);
-    l.insert_node_at_head(6);
-    l.insert_node_at_index(3, 1);
-    l.insert_node_at_index(4, 2);
-    l.insert_node_at_index(9, 5);
-    l.insert_node_at_index(10, 7);
-    l.insert_node_at_index(9, 0);
-    l.insert_node_at_index(9, -1);
-    l.print_list();
-    cout << "here\n";
-    l.delete_node_at_index(9);
-    l.delete_node_at_index(2);
-    l.print_list();
-    //l.print_list();
+    cout<<"Singly Linked List : \n";
+    while(true){
+        cout<<"Operations : \n1)Print List\n2)Add Element At Head\n";
+        cout<<"3)Add Element At Tail\n4)Add Element At Index\n";
+        cout<<"5)Delete Element At Head\n6)Delete Element At Tail\n";
+        cout<<"7)Delete Element At Index\n8)Exit\n";
+        int option;
+        cout<<"Enter the Option : ";
+        cin>>option;
+        switch (option){
+
+            case(1):{
+                cout<<"\nCurrent state of List : \n";
+                l.print_list();
+                cout<<"\n";
+                break;
+            }
+            case(2):{
+                int e;
+                cout<<"\nEnter element to be added at Head: ";
+                cin>>e;
+                l.insert_node_at_head(e);
+                cout<<"\nElement added \n";
+                break;
+                }
+            case(3):{
+                int e;
+                cout<<"\nEnter element to be added at Tail: ";
+                cin>>e;
+                l.insert_node_at_end(e);
+                cout<<"\nElement added \n";
+                break;
+                }
+            case(4):{
+                int i,e;
+                cout<<"\nEnter the element : ";
+                cin>>e;
+                cout<<"\nEnter the index :";
+                cin>>i;
+                l.insert_node_at_index(e,i);
+                cout<<"\n";
+                break;
+                }
+            case(5):{
+                cout<<"\nDelete At Head Initiated\n";
+                l.delete_node_at_head();
+                cout<<"\n";
+                break;
+                }
+            case(6):{
+                cout<<"\nDelete At Tail Initiated\n";
+                l.delete_node_at_tail();
+                cout<<"\n";
+                break;
+                }
+            case(7):{
+                int i;
+                cout<<"\nEnter the Index to be deleted : ";
+                cin>>i;
+                cout<<"\nDelete Initiated \n";
+                l.delete_node_at_index(i);
+                break;
+                }
+            case(8):{
+                break;
+                }
+            default:{
+            cout<<"Invalid Option\n";
+            }
+
+        }
+        cout<<"\n";
+        if(option==8){
+            break;
+        }
+
+    }
+    cout<<"Thank You\n";
     return 0;
 
 }
