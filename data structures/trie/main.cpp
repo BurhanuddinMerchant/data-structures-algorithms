@@ -42,9 +42,9 @@ public:
         TrieNode *t = this->root;
         if (this->root == nullptr)
         {
-            this->root = new TrieNode(s[0]);
+            this->root = new TrieNode(' ');
             t = this->root;
-            for (int i = 1; i < (int)s.size(); i++)
+            for (int i = 0; i < (int)s.size(); i++)
             {
                 TrieNode *new_node = new TrieNode(s[i]);
                 t->insertChildren(new_node);
@@ -52,10 +52,10 @@ public:
             }
             return;
         }
-        else if (this->root->getChar() == s[0])
+        else if (this->root->checkIfCharacterIsInChild(s[0]) != nullptr)
         {
             int i;
-            for (i = 1; i < (int)s.size(); i++)
+            for (i = 0; i < (int)s.size(); i++)
             {
                 TrieNode *child_node = t->checkIfCharacterIsInChild(s[i]);
                 if (child_node == nullptr)
@@ -84,8 +84,13 @@ public:
         }
         else
         {
-            cout << "String Cannot be inserted for word starting with a different letter \n";
-            cout << "Insert a string sarting with : " << this->root->getChar();
+            for (int i = 0; i < (int)s.size(); i++)
+            {
+                TrieNode *new_node = new TrieNode(s[i]);
+                t->insertChildren(new_node);
+                t = new_node;
+            }
+            return;
         }
     }
     void PrintTrie()
@@ -118,9 +123,12 @@ int main()
 {
     Trie t;
     t.insertString("Hold");
+    t.insertString("English");
+    t.insertString("End");
     t.insertString("Hope");
     t.insertString("Hide");
     t.insertString("High");
+    t.insertString("Enter");
     t.insertString("Hole");
     cout << "\n";
     t.PrintTrie();
