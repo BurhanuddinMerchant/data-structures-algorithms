@@ -117,6 +117,24 @@ public:
             }
         }
     }
+    bool checkWord(string s)
+    {
+        if (this->root == nullptr)
+            return false;
+        else
+        {
+            TrieNode *t = this->root;
+            for (int i = 0; t != nullptr && i < (int)s.size(); i++)
+            {
+                t = t->checkIfCharacterIsInChild(s[i]);
+                if (t == nullptr)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 };
 
 int main()
@@ -130,6 +148,8 @@ int main()
     t.insertString("High");
     t.insertString("Enter");
     t.insertString("Hole");
+    cout << "Hello : " << t.checkWord("Hello") << endl;
+    cout << "Hope : " << t.checkWord("Hope") << endl;
     cout << "\n";
     t.PrintTrie();
     return 0;
