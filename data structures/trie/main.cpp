@@ -52,40 +52,77 @@ public:
             }
             return;
         }
-        int i;
-        for (i = 0; i < (int)s.size(); i++)
+        else if (this->root->getChar() == s[0])
         {
-            TrieNode *child_node = t->checkIfCharacterIsInChild(s[i]);
-            if (child_node == nullptr)
+            int i;
+            for (i = 1; i < (int)s.size(); i++)
             {
-                break;
+                TrieNode *child_node = t->checkIfCharacterIsInChild(s[i]);
+                if (child_node == nullptr)
+                {
+                    break;
+                }
+                else
+                {
+                    t = child_node;
+                }
+            }
+            if (i == s.size())
+            {
+                return;
             }
             else
             {
-                t = child_node;
+                for (int j = i; j < (int)s.size(); j++)
+                {
+                    TrieNode *new_node = new TrieNode(s[j]);
+                    t->insertChildren(new_node);
+                    t = new_node;
+                }
             }
-        }
-        if (i == s.size())
-        {
             return;
         }
         else
         {
-            for (int j = i; j < (int)s.size(); j++)
+            cout << "String Cannot be inserted for word starting with a different letter \n";
+            cout << "Insert a string sarting with : " << this->root->getChar();
+        }
+    }
+    void PrintTrie()
+    {
+        if (this->root == nullptr)
+        {
+            cout << "Empty Trie!!\n";
+        }
+        else
+        {
+            TrieNode *t = this->root;
+            queue<TrieNode *> q;
+            q.push(t);
+            while (!q.empty())
             {
-                TrieNode *new_node = new TrieNode(s[j]);
-                t->insertChildren(new_node);
-                t = new_node;
+                t = q.front();
+                cout << t->getChar() << " ";
+                q.pop();
+                vector<TrieNode *> children = t->getChildren();
+                for (int i = 0; i < (int)children.size(); i++)
+                {
+                    q.push(children.at(i));
+                }
             }
         }
-        return;
     }
 };
 
 int main()
 {
-    cout << "here";
     Trie t;
-    t.insertString("Helo");
+    t.insertString("Hold");
+    t.insertString("Hope");
+    t.insertString("Hide");
+    t.insertString("High");
+    t.insertString("Hole");
+    cout << "\n";
+    t.PrintTrie();
     return 0;
 }
